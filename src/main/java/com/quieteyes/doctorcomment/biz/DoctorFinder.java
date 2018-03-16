@@ -1,20 +1,24 @@
 package com.quieteyes.doctorcomment.biz;
 
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.stereotype.Component;
 
-import org.springframework.stereotype.Service;
-
+import com.quieteyes.doctorcomment.data.DoctorDao;
 import com.quieteyes.doctorcomment.model.Doctor;
 
-@Service
+/**
+ * This is a 'tweener for the data layer. It has zero knowledge about how objects are persisted, and it is unencumbered
+ * by any framework. This is where the business logic beyond simple CRUD operations would live.
+ */
+@Component
 public class DoctorFinder {
-  public List<Doctor> findAll() {
-    // todo Pull from a database!
-    return Arrays.asList(
-        Doctor.create("music", "Feelgood"),
-        Doctor.create("music", "Dre"),
-        Doctor.create("medical", "Zizmore")
-    );
+  private final DoctorDao doctorDao;
+
+  DoctorFinder(DoctorDao doctorDao) {
+    this.doctorDao = doctorDao;
+  }
+
+
+  public Iterable<Doctor> findAll() {
+    return doctorDao.getAll();
   }
 }

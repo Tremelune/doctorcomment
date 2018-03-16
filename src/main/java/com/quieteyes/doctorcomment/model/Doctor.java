@@ -1,7 +1,19 @@
 package com.quieteyes.doctorcomment.model;
 
+import static javax.persistence.GenerationType.AUTO;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "doctors") // Explicitly defining table names avoids coincidental changes that destroy the world.
 public class Doctor {
-  private String groupId;
+  @Id
+  @GeneratedValue(strategy = AUTO)
+  private Long id;
+  private String groupId; // Is this enumerable? If so...should be an enumeration.
   private String name;
   //todo Location info.
   //todo Specialties.
@@ -17,12 +29,23 @@ public class Doctor {
   }
 
 
-  //
-  Doctor(String groupId, String name) {
+  @SuppressWarnings("unused") // Used by JPA.
+  protected Doctor() {
+  }
+
+  private Doctor(String groupId, String name) {
     this.groupId = groupId;
     this.name = name;
   }
 
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public String getGroupId() {
     return groupId;
