@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.quieteyes.doctorcomment.biz.CommentFinder;
 import com.quieteyes.doctorcomment.biz.CommentSaver;
 import com.quieteyes.doctorcomment.biz.DoctorFinder;
 import com.quieteyes.doctorcomment.biz.SaveCommentValidationException;
@@ -19,13 +18,11 @@ import com.quieteyes.doctorcomment.model.Doctor;
 @SuppressWarnings("unused") // Used by Spring.
 @RequestMapping("/comments")
 public class CommentController {
-  private final CommentFinder commentFinder;
   private final CommentSaver commentSaver;
   private final DoctorFinder doctorFinder;
 
 
-  CommentController(CommentFinder commentFinder, CommentSaver commentSaver, DoctorFinder doctorFinder) {
-    this.commentFinder = commentFinder;
+  CommentController(CommentSaver commentSaver, DoctorFinder doctorFinder) {
     this.commentSaver = commentSaver;
     this.doctorFinder = doctorFinder;
   }
@@ -34,7 +31,7 @@ public class CommentController {
   @RequestMapping(method = POST)
   public ResponseEntity<?> createComment(@RequestBody SaveCommentRequest req) {
     try {
-      Doctor doc = doctorFinder.findAll().iterator().next(); // todo Find by ID.
+      Doctor doc = doctorFinder.findById(req.doctorId).get();
       Comment comment = Comment.create(req.authorId, doc, req.body, req.rating);
       commentSaver.save(comment);
       return ResponseEntity.ok().build(); // todo Doc list.

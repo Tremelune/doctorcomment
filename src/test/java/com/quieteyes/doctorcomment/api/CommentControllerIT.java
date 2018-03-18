@@ -18,7 +18,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import com.quieteyes.doctorcomment.data.CommentRepository;
 import com.quieteyes.doctorcomment.data.DataInitializer;
+import com.quieteyes.doctorcomment.data.DoctorRepository;
 import com.quieteyes.doctorcomment.model.Comment;
+import com.quieteyes.doctorcomment.model.Doctor;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -26,6 +28,8 @@ import com.quieteyes.doctorcomment.model.Comment;
 public class CommentControllerIT {
   @Autowired
   private CommentRepository commentRepository;
+  @Autowired
+  private DoctorRepository doctorRepository;
   @Autowired
   private DataInitializer dataInitializer;
   @Autowired
@@ -40,9 +44,11 @@ public class CommentControllerIT {
 
   @Test
   public void testSaveComment() throws Exception {
+    Doctor doc = doctorRepository.findAll().iterator().next();
+
     MockHttpServletRequestBuilder post = post("/comments")
         .contentType(APPLICATION_JSON)
-        .content("{\"id\":1,\"authorId\":2,\"body\":\"req body\",\"rating\":3}");
+        .content("{\"id\":1,\"authorId\":2,\"body\":\"req body\",\"rating\":3, \"doctorId\":" + doc.getId() + "}");
 
     mockMvc.perform(post)
         .andDo(print())
