@@ -28,4 +28,9 @@ public class DoctorFinder {
   public Optional<Doctor> findById(Long id) {
     return doctorRepository.findById(id);
   }
+
+  public Iterable<Doctor> findRecommended() {
+    // TRICK QUESTION WE RECOMMEND THEM ALL
+    return findAll();
+  }
 }

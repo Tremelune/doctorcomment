@@ -1,9 +1,5 @@
 package com.quieteyes.doctorcomment.biz;
 
-import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.AUTHOR;
-import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.BODY;
-import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.DOCTOR;
-import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.RATING;
 import static org.springframework.util.StringUtils.isEmpty;
 
 import java.time.LocalDate;
@@ -33,27 +29,28 @@ public class CommentSaver {
    * - The body is empty.
    * - Rating isn't 1-5 (inclusive).
    */
-  public void save(Comment comment) throws SaveCommentValidationException {
+  public void save(Comment comment) {
     validate(comment);
     comment.setCreatedOn(LocalDate.now());
     commentRepository.save(comment);
   }
 
-  private void validate(Comment comment) throws SaveCommentValidationException {
+  private void validate(Comment comment) {
+    // These explanations are for internal engineers consuming our API, so we can expose them in the API response.
     if(comment.getAuthorId() == null) {
-      throw AUTHOR;
+      throw new IllegalArgumentException("Comments must have an author ID!");
     }
 
     if(comment.getDoctor() == null) {
-      throw DOCTOR;
+      throw new IllegalArgumentException("Comments must have a doctor ID!");
     }
 
     if (isEmpty(comment.getBody())) {
-      throw BODY;
+      throw new IllegalArgumentException("Comment body cannot be empty!");
     }
 
     if(comment.getRating() == null || comment.getRating() < 1 || comment.getRating() > 5) {
-      throw RATING;
+      throw new IllegalArgumentException("Rating must be between 1 and 5!");
     }
   }
 }

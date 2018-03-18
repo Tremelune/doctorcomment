@@ -1,16 +1,13 @@
 package com.quieteyes.doctorcomment.api;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.quieteyes.doctorcomment.biz.CommentSaver;
 import com.quieteyes.doctorcomment.biz.DoctorFinder;
-import com.quieteyes.doctorcomment.biz.SaveCommentValidationException;
 import com.quieteyes.doctorcomment.model.Comment;
 import com.quieteyes.doctorcomment.model.Doctor;
 
@@ -29,15 +26,11 @@ public class CommentController {
 
 
   @RequestMapping(method = POST)
-  public ResponseEntity<?> createComment(@RequestBody SaveCommentRequest req) {
-    try {
-      Doctor doc = doctorFinder.findById(req.doctorId).get();
-      Comment comment = Comment.create(req.authorId, doc, req.body, req.rating);
-      commentSaver.save(comment);
-      return ResponseEntity.ok().build(); // todo Doc list.
-    } catch (SaveCommentValidationException e) {
-      return ResponseEntity.status(BAD_REQUEST).body(e.getExplanation());
-    }
+  public Iterable<Doctor> createComment(@RequestBody SaveCommentRequest req) {
+    Doctor doc = doctorFinder.findById(req.doctorId).get();
+    Comment comment = Comment.create(req.authorId, doc, req.body, req.rating);
+    commentSaver.save(comment);
+    return doctorFinder.findRecommended();
   }
 
 

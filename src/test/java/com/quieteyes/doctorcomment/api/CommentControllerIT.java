@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
@@ -52,8 +53,8 @@ public class CommentControllerIT {
 
     mockMvc.perform(post)
         .andDo(print())
-        .andExpect(status().isOk());
-    //todo Doctors response
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.[0].name").value("Feelgood"));
 
     Iterable<Comment> comments = commentRepository.findAll();
     assertEquals(comments.iterator().next().getBody(), "req body");
