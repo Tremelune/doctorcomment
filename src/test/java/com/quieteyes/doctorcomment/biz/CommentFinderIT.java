@@ -38,7 +38,7 @@ public class CommentFinderIT {
 
 
   @Test
-  public void testFindById() {
+  public void testFindById() throws Exception {
     Doctor doc = doctorFinder.findAll().iterator().next();
     String body = UUID.randomUUID().toString(); // Make sure we're not pulling some other record...
     Comment comment = Comment.create(762L, doc, body, 2);

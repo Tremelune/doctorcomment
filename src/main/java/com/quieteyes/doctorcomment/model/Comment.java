@@ -20,16 +20,16 @@ public class Comment {
   @Id
   @GeneratedValue(strategy = AUTO)
   private Long id;
-  private long authorId; // This would probably be a join in the real world.
+  private Long authorId; // This would probably be a join in the real world.
   private String body;
   private LocalDate createdOn;
-  private int rating; // 1-5
+  private Integer rating; // 1-5
 
   @ManyToOne
   private Doctor doctor;
 
 
-  public static Comment create(long authorId, Doctor doc, String body, int rating) {
+  public static Comment create(Long authorId, Doctor doc, String body, Integer rating) {
     return new Builder()
         .setAuthorId(authorId)
         .setDoctor(doc)
@@ -43,7 +43,7 @@ public class Comment {
   protected Comment() {
   }
 
-  private Comment(Long id, long authorId, Doctor doctor, String body, LocalDate createdOn, int rating) {
+  private Comment(Long id, Long authorId, Doctor doctor, String body, LocalDate createdOn, Integer rating) {
     this.id = id;
     this.authorId = authorId;
     this.doctor = doctor;
@@ -61,11 +61,11 @@ public class Comment {
     this.id = id;
   }
 
-  public long getAuthorId() {
+  public Long getAuthorId() {
     return authorId;
   }
 
-  public void setAuthorId(long authorId) {
+  public void setAuthorId(Long authorId) {
     this.authorId = authorId;
   }
 
@@ -93,29 +93,29 @@ public class Comment {
     this.createdOn = createdOn;
   }
 
-  public int getRating() {
+  public Integer getRating() {
     return rating;
   }
 
-  public void setRating(int rating) {
+  public void setRating(Integer rating) {
     this.rating = rating;
   }
 
 
   public static class Builder {
     private Long id;
-    private long authorId;
+    private Long authorId;
     private Doctor doctor;
     private String body;
     private LocalDate createdOn;
-    private int rating;
+    private Integer rating;
 
     public Builder setId(Long id) {
       this.id = id;
       return this;
     }
 
-    public Builder setAuthorId(long authorId) {
+    public Builder setAuthorId(Long authorId) {
       this.authorId = authorId;
       return this;
     }
@@ -135,7 +135,7 @@ public class Comment {
       return this;
     }
 
-    public Builder setRating(int rating) {
+    public Builder setRating(Integer rating) {
       this.rating = rating;
       return this;
     }

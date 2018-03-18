@@ -1,5 +1,9 @@
 package com.quieteyes.doctorcomment.biz;
 
+import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.AUTHOR;
+import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.BODY;
+import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.DOCTOR;
+import static com.quieteyes.doctorcomment.biz.SaveCommentValidationException.RATING;
 import static org.springframework.util.StringUtils.isEmpty;
 
 import java.time.LocalDate;
@@ -23,26 +27,33 @@ public class CommentSaver {
   /**
    * Checks for valid comments and stores the comment with timestamp of now if all is well.
    *
-   * @throws IllegalArgumentException if there is no doctor, the body is empty, or if rating isn't 1-5 (inclusive).
+   * @throws IllegalArgumentException if:
+   * - THere is no author ID.
+   * - There is no doctor.
+   * - The body is empty.
+   * - Rating isn't 1-5 (inclusive).
    */
-  public void save(Comment comment) {
-    if(comment.getAuthorId() < 1) {
-      throw new IllegalArgumentException("Invalid author ID.");
+  public void save(Comment comment) throws SaveCommentValidationException {
+    validate(comment);
+    comment.setCreatedOn(LocalDate.now());
+    commentDao.save(comment);
+  }
+
+  private void validate(Comment comment) throws SaveCommentValidationException {
+    if(comment.getAuthorId() == null) {
+      throw AUTHOR;
     }
 
     if(comment.getDoctor() == null) {
-      throw new IllegalArgumentException("Comments must have an associated doctor.");
+      throw DOCTOR;
     }
 
     if (isEmpty(comment.getBody())) {
-      throw new IllegalArgumentException("Body cannot be empty.");
+      throw BODY;
     }
 
-    if(comment.getRating() < 1 || comment.getRating() > 5) {
-      throw new IllegalArgumentException("Rating must be between 1-5 (inclusive).");
+    if(comment.getRating() == null || comment.getRating() < 1 || comment.getRating() > 5) {
+      throw RATING;
     }
-
-    comment.setCreatedOn(LocalDate.now());
-    commentDao.save(comment);
   }
 }

@@ -38,7 +38,7 @@ public class CommentSaverIT {
 
 
   @Test
-  public void testSave() {
+  public void testSave() throws Exception {
     Doctor doc = doctorFinder.findAll().iterator().next();
     Comment comment = Comment.create(762L, doc, "He's the one they call Dr Feelgood", 2);
     underTest.save(comment);
@@ -47,10 +47,10 @@ public class CommentSaverIT {
 
     assertTrue(commentOptional.isPresent());
     Comment found = commentOptional.get();
-    assertEquals(found.getAuthorId(), 762);
+    assertEquals(found.getAuthorId().longValue(), 762);
     assertEquals(found.getBody(), "He's the one they call Dr Feelgood");
     assertNotNull(found.getCreatedOn());
-    assertEquals(found.getRating(), 2);
+    assertEquals(found.getRating().longValue(), 2);
     assertEquals(found.getDoctor().getId(), doc.getId());
   }
 }

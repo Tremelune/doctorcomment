@@ -14,43 +14,51 @@ public class CommentSaverTest {
   private final CommentSaver underTest = new CommentSaver(new DummyCommentDao());
 
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testValidationBadAuthorId() {
-    Comment comment = Comment.create(0, null, null, 0);
+  @Test(expected = SaveCommentValidationException.class)
+  public void testValidationNullAuthorId() throws Exception {
+    Comment comment = Comment.create(null, null, null, null);
     underTest.save(comment);
   }
 
 
-  public void testValidationNullDoctor() {
-    Comment comment = Comment.create(1, null, null, 0);
+  @Test(expected = SaveCommentValidationException.class)
+  public void testValidationNullDoctor() throws Exception {
+    Comment comment = Comment.create(1L, null, null, null);
     underTest.save(comment);
   }
 
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testValidationEmptyBody() {
-    Comment comment = Comment.create(1, doc, null, 0);
+  @Test(expected = SaveCommentValidationException.class)
+  public void testValidationEmptyBody() throws Exception {
+    Comment comment = Comment.create(1L, doc, null, null);
     underTest.save(comment);
   }
 
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testValidationRatingLow() {
-    Comment comment = Comment.create(1, doc, "body", 0);
+  @Test(expected = SaveCommentValidationException.class)
+  public void testValidationRatingNull() throws Exception {
+    Comment comment = Comment.create(1L, doc, "body", null);
     underTest.save(comment);
   }
 
 
-  @Test(expected = IllegalArgumentException.class)
-  public void testValidationRatingHigh() {
-    Comment comment = Comment.create(1, doc, "body", 6);
+  @Test(expected = SaveCommentValidationException.class)
+  public void testValidationRatingLow() throws Exception {
+    Comment comment = Comment.create(1L, doc, "body", 0);
+    underTest.save(comment);
+  }
+
+
+  @Test(expected = SaveCommentValidationException.class)
+  public void testValidationRatingHigh() throws Exception {
+    Comment comment = Comment.create(1L, doc, "body", 6);
     underTest.save(comment);
   }
 
 
   @Test
-  public void testSave() {
-    Comment comment = Comment.create(1, doc, "body", 3);
+  public void testSave() throws Exception {
+    Comment comment = Comment.create(1L, doc, "body", 3);
     assertNull(comment.getCreatedOn());
     underTest.save(comment);
     assertNotNull(comment.getCreatedOn());
