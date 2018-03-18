@@ -1,5 +1,7 @@
 package com.quieteyes.doctorcomment.data;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import com.quieteyes.doctorcomment.model.Comment;
@@ -24,5 +26,10 @@ public class CommentDao {
   /** Persist the comment to the datastore. */
   public void save(Comment comment) {
     commentRepository.save(comment);
+  }
+
+
+  public Optional<Comment> findById(long id) {
+    return commentRepository.findById(id);
   }
 }

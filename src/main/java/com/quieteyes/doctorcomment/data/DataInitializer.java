@@ -10,11 +10,13 @@ import com.quieteyes.doctorcomment.model.Doctor;
 public class DataInitializer {
   private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
+  private final CommentRepository commentRepository;
   private final DoctorDao doctorDao;
   private final DoctorRepository doctorRepository;
 
 
-  DataInitializer(DoctorDao doctorDao, DoctorRepository doctorRepository) {
+  DataInitializer(CommentRepository commentRepository, DoctorDao doctorDao, DoctorRepository doctorRepository) {
+    this.commentRepository = commentRepository;
     this.doctorDao = doctorDao;
     this.doctorRepository = doctorRepository;
   }
@@ -22,6 +24,7 @@ public class DataInitializer {
 
   public void initialize() {
     log.info("Clearing database...");
+    commentRepository.deleteAll();
     doctorRepository.deleteAll();
 
     log.info("Storing doctors...");
