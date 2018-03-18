@@ -1,24 +1,31 @@
 package com.quieteyes.doctorcomment.biz;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
-import com.quieteyes.doctorcomment.data.DoctorDao;
+import com.quieteyes.doctorcomment.data.DoctorRepository;
 import com.quieteyes.doctorcomment.model.Doctor;
 
 /**
  * This is a 'tweener for the data layer. It has zero knowledge about how objects are persisted, and it is unencumbered
- * by any framework. This is where the business logic beyond simple CRUD operations would live.
+ * by any framework or magic. This is where the business logic beyond simple CRUD operations would live.
  */
 @Component
 public class DoctorFinder {
-  private final DoctorDao doctorDao;
+  private final DoctorRepository doctorRepository;
 
-  DoctorFinder(DoctorDao doctorDao) {
-    this.doctorDao = doctorDao;
+
+  DoctorFinder(DoctorRepository doctorRepository) {
+    this.doctorRepository = doctorRepository;
   }
 
 
   public Iterable<Doctor> findAll() {
-    return doctorDao.getAll();
+    return doctorRepository.findAll();
+  }
+
+  public Optional<Doctor> findById(Long id) {
+    return doctorRepository.findById(id);
   }
 }

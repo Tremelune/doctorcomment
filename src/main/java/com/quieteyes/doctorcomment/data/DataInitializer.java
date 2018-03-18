@@ -11,13 +11,11 @@ public class DataInitializer {
   private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
 
   private final CommentRepository commentRepository;
-  private final DoctorDao doctorDao;
   private final DoctorRepository doctorRepository;
 
 
-  DataInitializer(CommentRepository commentRepository, DoctorDao doctorDao, DoctorRepository doctorRepository) {
+  DataInitializer(CommentRepository commentRepository, DoctorRepository doctorRepository) {
     this.commentRepository = commentRepository;
-    this.doctorDao = doctorDao;
     this.doctorRepository = doctorRepository;
   }
 
@@ -28,8 +26,8 @@ public class DataInitializer {
     doctorRepository.deleteAll();
 
     log.info("Storing doctors...");
-    doctorDao.save(Doctor.create("music", "Feelgood"));
-    doctorDao.save(Doctor.create("music", "Dre"));
-    doctorDao.save(Doctor.create("medical", "Zizmore"));
+    doctorRepository.save(Doctor.create("music", "Feelgood"));
+    doctorRepository.save(Doctor.create("music", "Dre"));
+    doctorRepository.save(Doctor.create("medical", "Zizmore"));
   }
 }

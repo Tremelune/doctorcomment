@@ -10,17 +10,17 @@ import java.time.LocalDate;
 
 import org.springframework.stereotype.Component;
 
-import com.quieteyes.doctorcomment.data.CommentDao;
+import com.quieteyes.doctorcomment.data.CommentRepository;
 import com.quieteyes.doctorcomment.model.Comment;
 
 /** All Comment persistence should go through this class. */
 @Component
 public class CommentSaver {
-  private final CommentDao commentDao;
+  private final CommentRepository commentRepository;
 
 
-  CommentSaver(CommentDao commentDao) {
-    this.commentDao = commentDao;
+  CommentSaver(CommentRepository commentRepository) {
+    this.commentRepository = commentRepository;
   }
 
 
@@ -36,7 +36,7 @@ public class CommentSaver {
   public void save(Comment comment) throws SaveCommentValidationException {
     validate(comment);
     comment.setCreatedOn(LocalDate.now());
-    commentDao.save(comment);
+    commentRepository.save(comment);
   }
 
   private void validate(Comment comment) throws SaveCommentValidationException {

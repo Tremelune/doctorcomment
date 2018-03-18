@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import com.quieteyes.doctorcomment.data.CommentRepository;
 import com.quieteyes.doctorcomment.data.DataInitializer;
-import com.quieteyes.doctorcomment.data.TestCommentDao;
 import com.quieteyes.doctorcomment.model.Comment;
 
 @SpringBootTest
@@ -25,11 +25,11 @@ import com.quieteyes.doctorcomment.model.Comment;
 @AutoConfigureMockMvc
 public class CommentControllerIT {
   @Autowired
+  private CommentRepository commentRepository;
+  @Autowired
   private DataInitializer dataInitializer;
   @Autowired
   private MockMvc mockMvc;
-  @Autowired
-  private TestCommentDao testCommentDao;
 
 
   @Before
@@ -49,7 +49,7 @@ public class CommentControllerIT {
         .andExpect(status().isOk());
     //todo Doctors response
 
-    Iterable<Comment> comments = testCommentDao.findAll();
+    Iterable<Comment> comments = commentRepository.findAll();
     assertEquals(comments.iterator().next().getBody(), "req body");
   }
 }

@@ -4,5 +4,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.quieteyes.doctorcomment.model.Comment;
 
-interface CommentRepository extends CrudRepository<Comment, Long> {
+public interface CommentRepository extends CrudRepository<Comment, Long> {
 }
