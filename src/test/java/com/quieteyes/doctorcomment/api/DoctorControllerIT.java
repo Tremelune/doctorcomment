@@ -38,6 +38,8 @@ public class DoctorControllerIT {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.[0].name").value("Feelgood"))
-        .andExpect(jsonPath("$.[0].location.address").value("14 Tomcat Alley, New York NY 11211"));
+        .andExpect(jsonPath("$.[0].location.address").value("14 Tomcat Alley, New York NY 11211"))
+        .andExpect(jsonPath("$.[0].location.longitude").value(-73.935242))
+        .andExpect(jsonPath("$.[0].location.latitude").value(40.730610));
   }
 }
