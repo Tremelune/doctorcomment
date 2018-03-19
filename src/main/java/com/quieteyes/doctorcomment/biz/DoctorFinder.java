@@ -30,7 +30,8 @@ public class DoctorFinder {
   }
 
   public Iterable<Doctor> findRecommended() {
-    // TRICK QUESTION WE RECOMMEND THEM ALL
+    // TRICK QUESTION WE RECOMMEND THEM ALL! We could add a limit to the database query, sublist this list here, have
+    // all kinds of logic to figure out why certain doctors are recommended... todo
     return findAll();
   }
 }
