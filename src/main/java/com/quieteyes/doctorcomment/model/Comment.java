@@ -22,34 +22,26 @@ public class Comment {
   private Long id;
   private Long authorId; // This would probably be a join in the real world.
   private String body;
-  private LocalDate createdOn;
+  private LocalDate createdOn = LocalDate.now();
   private Integer rating; // 1-5
+  private boolean active = true;
 
   @ManyToOne
   private Doctor doctor;
 
 
   public static Comment create(Long authorId, Doctor doc, String body, Integer rating) {
-    return new Builder()
-        .setAuthorId(authorId)
-        .setDoctor(doc)
-        .setBody(body)
-        .setRating(rating)
-        .build();
+    Comment comment = new Comment();
+    comment.setAuthorId(authorId);
+    comment.setDoctor(doc);
+    comment.setBody(body);
+    comment.setRating(rating);
+    return comment;
   }
 
 
   @SuppressWarnings("unused") // Used by JPA.
   protected Comment() {
-  }
-
-  private Comment(Long id, Long authorId, Doctor doctor, String body, LocalDate createdOn, Integer rating) {
-    this.id = id;
-    this.authorId = authorId;
-    this.doctor = doctor;
-    this.body = body;
-    this.createdOn = createdOn;
-    this.rating = rating;
   }
 
 
@@ -101,47 +93,11 @@ public class Comment {
     this.rating = rating;
   }
 
+  public boolean isActive() {
+    return active;
+  }
 
-  public static class Builder {
-    private Long id;
-    private Long authorId;
-    private Doctor doctor;
-    private String body;
-    private LocalDate createdOn;
-    private Integer rating;
-
-    public Builder setId(Long id) {
-      this.id = id;
-      return this;
-    }
-
-    public Builder setAuthorId(Long authorId) {
-      this.authorId = authorId;
-      return this;
-    }
-
-    public Builder setDoctor(Doctor doctor) {
-      this.doctor = doctor;
-      return this;
-    }
-
-    public Builder setBody(String body) {
-      this.body = body;
-      return this;
-    }
-
-    public Builder setCreatedOn(LocalDate createdOn) {
-      this.createdOn = createdOn;
-      return this;
-    }
-
-    public Builder setRating(Integer rating) {
-      this.rating = rating;
-      return this;
-    }
-
-    public Comment build() {
-      return new Comment(id, authorId, doctor, body, createdOn, rating);
-    }
+  public void setActive(boolean active) {
+    this.active = active;
   }
 }

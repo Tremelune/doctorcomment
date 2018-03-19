@@ -1,7 +1,5 @@
 package com.quieteyes.doctorcomment.biz;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
@@ -59,10 +57,8 @@ public class CommentSaverTest {
 
 
   @Test
-  public void testSave() throws Exception {
+  public void testSave() {
     Comment comment = Comment.create(1L, doc, "body", 3);
-    assertNull(comment.getCreatedOn());
     underTest.save(comment);
-    assertNotNull(comment.getCreatedOn());
   }
 }

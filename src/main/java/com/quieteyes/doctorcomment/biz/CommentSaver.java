@@ -2,7 +2,6 @@ package com.quieteyes.doctorcomment.biz;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -24,29 +23,24 @@ public class CommentSaver {
 
 
   /**
-   * Checks for valid comments and stores the comment with timestamp of now if all is well.
+   * Checks for validity and stores the comment if all is well.
    *
    * @throws IllegalArgumentException if:
-   * - THere is no author ID.
+   * - There is no author ID.
    * - There is no doctor.
    * - The body is empty.
    * - Rating isn't 1-5 (inclusive).
    */
   public void save(Comment comment) {
     validate(comment);
-    comment.setCreatedOn(LocalDate.now());
     commentRepository.save(comment);
   }
 
 
   public void update(Long commentId, String body, Integer rating) {
-    Optional<Comment> optional = commentFinder.findById(commentId);
-    if (!optional.isPresent()) {
-      throw new IllegalArgumentException("No Comment found with ID: " + commentId);
-    }
+    Comment comment = getComment(commentId);
 
     // Only update what we have been provided.
-    Comment comment = optional.get();
     if (!isEmpty(body)) {
       comment.setBody(body);
     }
@@ -58,6 +52,12 @@ public class CommentSaver {
     commentRepository.save(comment);
   }
 
+
+  public void deactivate(Long commentId) {
+    Comment comment = getComment(commentId);
+    comment.setActive(false);
+    commentRepository.save(comment);
+  }
 
 
   private void validate(Comment comment) {
@@ -77,5 +77,15 @@ public class CommentSaver {
     if(comment.getRating() == null || comment.getRating() < 1 || comment.getRating() > 5) {
       throw new IllegalArgumentException("Rating must be between 1 and 5!");
     }
+  }
+
+
+  private Comment getComment(Long id) {
+    Optional<Comment> optional = commentFinder.findById(id);
+    if (!optional.isPresent()) {
+      throw new IllegalArgumentException("No Comment found with ID: " + id);
+    }
+
+    return optional.get();
   }
 }

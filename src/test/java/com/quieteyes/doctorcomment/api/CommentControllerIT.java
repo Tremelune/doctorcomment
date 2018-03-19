@@ -1,6 +1,7 @@
 package com.quieteyes.doctorcomment.api;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -97,5 +98,25 @@ public class CommentControllerIT {
     comment = commentRepository.findById(comment.getId()).get();
     assertEquals("updated body", comment.getBody());
     assertEquals(2, comment.getRating().longValue());
+  }
+
+
+  @Test
+  public void testDeactivate() throws Exception {
+    Doctor doc = doctorRepository.findAll().iterator().next();
+    Comment comment = Comment.create(1L, doc, "initial body", 3);
+    commentRepository.save(comment);
+
+    MockHttpServletRequestBuilder req = post("/comments/" + comment.getId() + "/deactivations")
+        .contentType(APPLICATION_JSON)
+        .content("{\"id\":" + comment.getId() + "}");
+
+    mockMvc.perform(req)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.active").value("false"));
+
+    comment = commentRepository.findById(comment.getId()).get();
+    assertFalse(comment.isActive());
   }
 }

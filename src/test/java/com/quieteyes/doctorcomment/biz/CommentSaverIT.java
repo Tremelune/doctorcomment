@@ -1,6 +1,7 @@
 package com.quieteyes.doctorcomment.biz;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -67,5 +68,20 @@ public class CommentSaverIT {
     comment = commentFinder.findById(comment.getId()).get();
     assertEquals("He's the one that make you feel arright...", comment.getBody());
     assertEquals(1, comment.getRating().longValue());
+  }
+
+
+  @Test
+  public void testDeactivate() {
+    Doctor doc = doctorFinder.findAll().iterator().next();
+    Comment comment = Comment.create(762L, doc, "He's the one they call Dr Feelgood", 2);
+    underTest.save(comment);
+    comment = commentFinder.findById(comment.getId()).get();
+    assertTrue(comment.isActive());
+
+    underTest.deactivate(comment.getId());
+
+    comment = commentFinder.findById(comment.getId()).get();
+    assertFalse(comment.isActive());
   }
 }

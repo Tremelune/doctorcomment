@@ -55,6 +55,21 @@ public class CommentController {
 
 
   /**
+   * I thought about using PATCH here, but there was no data to send for the update. For this case, I prefer using a
+   * sub-resource.
+   *
+   * https://stackoverflow.com/questions/28459418/rest-api-put-vs-patch-with-real-life-examples
+   *
+   * https://softwareengineering.stackexchange.com/questions/323415/how-to-design-a-rest-api-to-handle-non-crud-operations
+   */
+  @RequestMapping(method = POST, value = "/{id}/deactivations")
+  public Comment deactivate(@PathVariable("id") Long id) {
+    commentSaver.deactivate(id);
+    return commentFinder.findById(id).get();
+  }
+
+
+  /**
    * I sometimes like to keep request/response structures distinct from the structure of models, because mirroring your
    * storage schema in your API can make things extremely difficult to change. It's also common that you'll want slight
    * differences in the two, as is the case here. The downside is manual translation of values.
