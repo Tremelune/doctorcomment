@@ -2,13 +2,19 @@ package com.quieteyes.doctorcomment.model;
 
 import static javax.persistence.GenerationType.AUTO;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "doctors") // Explicitly defining table names avoids coincidental changes that destroy the world.
+@Table(name = "doctors")
 public class Doctor {
   @Id
   @GeneratedValue(strategy = AUTO)
@@ -18,7 +24,12 @@ public class Doctor {
   private String address; // Parsing and storing global addresses is its own blog post...
   private Double longitude;
   private Double latitude;
-  //todo Specialties.
+
+  @ManyToMany
+  @JoinTable(name = "doctors_specialties",
+      joinColumns = { @JoinColumn(name = "doctorId") },
+      inverseJoinColumns = { @JoinColumn(name = "specialtyId") })
+  private Set<Specialty> specialties = new HashSet<>();
 
 
   // Persistent models get unwieldy quickly, so it's wise to make it explicit which parameters are required and which
@@ -71,5 +82,13 @@ public class Doctor {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Set<Specialty> getSpecialties() {
+    return specialties;
+  }
+
+  public void setSpecialties(Set<Specialty> specialties) {
+    this.specialties = specialties;
   }
 }

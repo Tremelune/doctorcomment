@@ -15,7 +15,7 @@ import javax.persistence.Table;
  * functionality is fairly stable. The long-term benefits are real and worth it as things grow, however.
  */
 @Entity
-@Table(name = "comments") // Explicitly defining table names avoids coincidental changes that destroy the world.
+@Table(name = "comments")
 public class Comment {
   @Id
   @GeneratedValue(strategy = AUTO)
