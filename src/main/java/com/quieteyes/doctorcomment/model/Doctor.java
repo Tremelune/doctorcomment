@@ -15,22 +15,37 @@ public class Doctor {
   private Long id;
   private String groupId; // Is this enumerable? If so...should be an enumeration.
   private String name;
-  //todo Location info.
+  private String address; // Parsing and storing global addresses is its own blog post...
+  private Double longitude;
+  private Double latitude;
   //todo Specialties.
 
 
   // Persistent models get unwieldy quickly, so it's wise to make it explicit which parameters are required and which
   // are optional...Factory methods help with that.
-  public static Doctor create(String groupId, String name) {
+  public static Doctor create(String groupId, String name, Location location) {
     Doctor doc = new Doctor();
     doc.setGroupId(groupId);
     doc.setName(name);
+    doc.setLocation(location);
     return doc;
   }
 
 
   @SuppressWarnings("unused") // Used by JPA.
   protected Doctor() {
+  }
+
+
+  // Some Java ORM hoops...I want the location info persisted flat, but manipulated as a convenient object.
+  public Location getLocation() {
+    return new Location(address, longitude, latitude);
+  }
+
+  public void setLocation(Location location) {
+    address = location.getAddress();
+    longitude = location.getLongitude();
+    latitude = location.getLatitude();
   }
 
 

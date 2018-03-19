@@ -37,6 +37,7 @@ public class DoctorControllerIT {
     mockMvc.perform(get("/doctors"))
         .andDo(print())
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.[0].name").value("Feelgood"));
+        .andExpect(jsonPath("$.[0].name").value("Feelgood"))
+        .andExpect(jsonPath("$.[0].location.address").value("14 Tomcat Alley, New York NY 11211"));
   }
 }

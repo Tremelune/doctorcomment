@@ -1,9 +1,6 @@
 package com.quieteyes.doctorcomment.biz;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +32,11 @@ public class DoctorFinderIT {
   @Test
   public void testFindById() {
     Doctor doc = underTest.findAll().iterator().next();
-    Optional<Doctor> found = underTest.findById(doc.getId());
-    assertTrue(found.isPresent());
-    assertEquals(found.get().getName(), doc.getName());
+    Doctor found = underTest.findById(doc.getId()).get();
+    assertEquals(found.getName(), doc.getName());
+    assertEquals(found.getName(), doc.getName());
+    assertEquals(found.getLocation().getAddress(), doc.getLocation().getAddress());
+    assertEquals(found.getLocation().getLongitude(), doc.getLocation().getLongitude());
+    assertEquals(found.getLocation().getLatitude(), doc.getLocation().getLatitude());
   }
 }

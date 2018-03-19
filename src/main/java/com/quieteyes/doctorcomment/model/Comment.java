@@ -30,6 +30,8 @@ public class Comment {
   private Doctor doctor;
 
 
+  // Persistent models get unwieldy quickly, so it's wise to make it explicit which parameters are required and which
+  // are optional...Factory methods help with that.
   public static Comment create(Long authorId, Doctor doc, String body, Integer rating) {
     Comment comment = new Comment();
     comment.setAuthorId(authorId);
