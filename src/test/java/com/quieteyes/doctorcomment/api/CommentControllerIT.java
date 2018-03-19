@@ -86,9 +86,9 @@ public class CommentControllerIT {
     Comment comment = Comment.create(1L, doc, "initial body", 3);
     commentRepository.save(comment);
 
-    MockHttpServletRequestBuilder put = put("/comments")
+    MockHttpServletRequestBuilder put = put("/comments/" + comment.getId())
         .contentType(APPLICATION_JSON)
-        .content("{\"commentId\":" + comment.getId() + ",\"body\":\"updated body\",\"rating\":2}");
+        .content("{\"body\":\"updated body\",\"rating\":2}");
 
     mockMvc.perform(put)
         .andDo(print())

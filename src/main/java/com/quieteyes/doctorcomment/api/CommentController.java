@@ -47,10 +47,10 @@ public class CommentController {
   }
 
 
-  @RequestMapping(method = PUT)
-  public Comment update(@RequestBody UpdateRequest req) {
-    commentSaver.update(req.commentId, req.body, req.rating);
-    return commentFinder.findById(req.commentId).get();
+  @RequestMapping(method = PUT, value = "/{id}")
+  public Comment update(@PathVariable("id") Long id, @RequestBody UpdateRequest req) {
+    commentSaver.update(id, req.body, req.rating);
+    return commentFinder.findById(id).get();
   }
 
 
@@ -82,7 +82,6 @@ public class CommentController {
   }
 
   public static class UpdateRequest {
-    public Long commentId;
     public String body;
     public Integer rating;
   }
