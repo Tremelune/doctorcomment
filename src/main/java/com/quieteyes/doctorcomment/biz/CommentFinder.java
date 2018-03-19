@@ -21,7 +21,7 @@ public class CommentFinder {
   }
 
 
-  public Optional<Comment> findById(long id) {
+  public Optional<Comment> findById(Long id) {
     return commentRepository.findById(id);
   }
 }

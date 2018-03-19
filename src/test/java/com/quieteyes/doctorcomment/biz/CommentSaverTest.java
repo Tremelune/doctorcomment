@@ -2,17 +2,18 @@ package com.quieteyes.doctorcomment.biz;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import com.quieteyes.doctorcomment.data.CommentRepository;
 import com.quieteyes.doctorcomment.model.Comment;
 import com.quieteyes.doctorcomment.model.Doctor;
 
 public class CommentSaverTest {
+  private final CommentFinder commentFinder = mock(CommentFinder.class);
+  private final CommentSaver underTest = new CommentSaver(commentFinder, mock(CommentRepository.class));
   private final Doctor doc = Doctor.create(null, null);
-  private final CommentSaver underTest = new CommentSaver(Mockito.mock(CommentRepository.class));
 
 
   @Test(expected = IllegalArgumentException.class)

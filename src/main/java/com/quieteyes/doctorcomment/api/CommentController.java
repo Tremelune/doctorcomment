@@ -2,6 +2,7 @@ package com.quieteyes.doctorcomment.api;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.quieteyes.doctorcomment.biz.DoctorFinder;
 import com.quieteyes.doctorcomment.model.Comment;
 import com.quieteyes.doctorcomment.model.Doctor;
 
+/** So like...there's no authentication here. Anyone can create slanderous comments... */
 @RestController
 @SuppressWarnings("unused") // Used by Spring.
 @RequestMapping("/comments")
@@ -31,7 +33,7 @@ public class CommentController {
 
 
   @RequestMapping(method = POST)
-  public Iterable<Doctor> create(@RequestBody SaveCommentRequest req) {
+  public Iterable<Doctor> create(@RequestBody SaveRequest req) {
     Doctor doc = doctorFinder.findById(req.doctorId).get();
     Comment comment = Comment.create(req.authorId, doc, req.body, req.rating);
     commentSaver.save(comment);
@@ -45,15 +47,28 @@ public class CommentController {
   }
 
 
+  @RequestMapping(method = PUT)
+  public Comment update(@RequestBody UpdateRequest req) {
+    commentSaver.update(req.commentId, req.body, req.rating);
+    return commentFinder.findById(req.commentId).get();
+  }
+
+
   /**
    * I sometimes like to keep request/response structures distinct from the structure of models, because mirroring your
    * storage schema in your API can make things extremely difficult to change. It's also common that you'll want slight
    * differences in the two, as is the case here. The downside is manual translation of values.
    */
-  public static class SaveCommentRequest {
+  public static class SaveRequest {
     public Long authorId;
     public String body;
     public Integer rating;
     public Long doctorId;
+  }
+
+  public static class UpdateRequest {
+    public Long commentId;
+    public String body;
+    public Integer rating;
   }
 }

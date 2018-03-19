@@ -38,7 +38,7 @@ public class CommentSaverIT {
 
 
   @Test
-  public void testSave() throws Exception {
+  public void testSave() {
     Doctor doc = doctorFinder.findAll().iterator().next();
     Comment comment = Comment.create(762L, doc, "He's the one they call Dr Feelgood", 2);
     underTest.save(comment);
@@ -52,5 +52,20 @@ public class CommentSaverIT {
     assertNotNull(found.getCreatedOn());
     assertEquals(found.getRating().longValue(), 2);
     assertEquals(found.getDoctor().getId(), doc.getId());
+  }
+
+
+  @Test
+  public void testUpdate() {
+    Doctor doc = doctorFinder.findAll().iterator().next();
+    Comment comment = Comment.create(762L, doc, "He's the one they call Dr Feelgood", 2);
+    underTest.save(comment);
+    comment = commentFinder.findById(comment.getId()).get();
+
+    underTest.update(comment.getId(), "He's the one that make you feel arright...", 1);
+
+    comment = commentFinder.findById(comment.getId()).get();
+    assertEquals("He's the one that make you feel arright...", comment.getBody());
+    assertEquals(1, comment.getRating().longValue());
   }
 }

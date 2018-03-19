@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -75,5 +76,26 @@ public class CommentControllerIT {
         .andDo(print())
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.body").value("comment body"));
+  }
+
+
+  @Test
+  public void testUpdate() throws Exception {
+    Doctor doc = doctorRepository.findAll().iterator().next();
+    Comment comment = Comment.create(1L, doc, "initial body", 3);
+    commentRepository.save(comment);
+
+    MockHttpServletRequestBuilder put = put("/comments")
+        .contentType(APPLICATION_JSON)
+        .content("{\"commentId\":" + comment.getId() + ",\"body\":\"updated body\",\"rating\":2}");
+
+    mockMvc.perform(put)
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.body").value("updated body"));
+
+    comment = commentRepository.findById(comment.getId()).get();
+    assertEquals("updated body", comment.getBody());
+    assertEquals(2, comment.getRating().longValue());
   }
 }
