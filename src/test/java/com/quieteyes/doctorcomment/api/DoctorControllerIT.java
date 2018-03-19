@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.quieteyes.doctorcomment.data.DataInitializer;
 
+/** End-to-end test that fires up the server and hits endpoints. */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc

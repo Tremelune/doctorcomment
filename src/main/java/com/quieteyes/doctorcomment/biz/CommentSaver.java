@@ -37,6 +37,7 @@ public class CommentSaver {
   }
 
 
+  /** Updates the body and/or rating of the comment. Null values are ignored. */
   public void update(Long commentId, String body, Integer rating) {
     Comment comment = getComment(commentId);
 
@@ -53,6 +54,7 @@ public class CommentSaver {
   }
 
 
+  /** Sets Comment.active to false. */
   public void deactivate(Long commentId) {
     Comment comment = getComment(commentId);
     comment.setActive(false);

@@ -10,10 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * All the builders, factory methods, and hidden constructors slow changes down a bit, so I don't usually bother until
- * functionality is fairly stable. The long-term benefits are real and worth it as things grow, however.
- */
+/** Persistent comments. */
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -31,7 +28,7 @@ public class Comment {
 
 
   // Persistent models get unwieldy quickly, so it's wise to make it explicit which parameters are required and which
-  // are optional...Factory methods help with that.
+  // are optional...Factory methods can help with that. They can also make for nice shortcuts.
   public static Comment create(Long authorId, Doctor doc, String body, Integer rating) {
     Comment comment = new Comment();
     comment.setAuthorId(authorId);
@@ -47,6 +44,7 @@ public class Comment {
   }
 
 
+  // Everyone loves Java...
   public Long getId() {
     return id;
   }

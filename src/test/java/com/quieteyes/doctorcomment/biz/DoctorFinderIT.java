@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.quieteyes.doctorcomment.data.DataInitializer;
 import com.quieteyes.doctorcomment.model.Doctor;
 
+/** Hits the actual database with all dependencies. Switchy validation logic is better handled in CommentFinderTest */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class DoctorFinderIT {

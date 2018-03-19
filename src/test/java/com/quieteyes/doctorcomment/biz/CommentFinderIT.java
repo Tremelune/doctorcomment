@@ -17,7 +17,7 @@ import com.quieteyes.doctorcomment.data.DataInitializer;
 import com.quieteyes.doctorcomment.model.Comment;
 import com.quieteyes.doctorcomment.model.Doctor;
 
-/** Hits the actual database with all dependencies. Switchy validation logic is better handled in CommentSaverTest */
+/** Hits the actual database with all dependencies. Switchy validation logic is better handled in CommentFinderTest */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class CommentFinderIT {

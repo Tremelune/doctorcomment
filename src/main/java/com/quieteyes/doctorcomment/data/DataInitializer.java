@@ -13,6 +13,7 @@ import com.quieteyes.doctorcomment.model.Doctor;
 import com.quieteyes.doctorcomment.model.Location;
 import com.quieteyes.doctorcomment.model.Specialty;
 
+/** This is just an easy way to get some dummy doctors in the database automagically. */
 @Component
 public class DataInitializer {
   private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
@@ -31,6 +32,7 @@ public class DataInitializer {
 
 
   public void initialize() {
+    // The order here matters, due to foreign key constraints.
     log.info("Clearing database...");
     commentRepository.deleteAll();
     doctorRepository.deleteAll();

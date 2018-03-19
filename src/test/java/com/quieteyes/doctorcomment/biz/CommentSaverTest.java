@@ -9,6 +9,7 @@ import com.quieteyes.doctorcomment.model.Comment;
 import com.quieteyes.doctorcomment.model.Doctor;
 import com.quieteyes.doctorcomment.model.Location;
 
+/** Unit test. Fast; no magic dependencies. */
 public class CommentSaverTest {
   private final CommentFinder commentFinder = mock(CommentFinder.class);
   private final CommentSaver underTest = new CommentSaver(commentFinder, mock(CommentRepository.class));

@@ -13,13 +13,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/** Persisted doctors. */
 @Entity
 @Table(name = "doctors")
 public class Doctor {
   @Id
   @GeneratedValue(strategy = AUTO)
   private Long id;
-  private String groupId; // Is this enumerable? If so...should be an enumeration.
+  private String groupId;
   private String name;
   private String address; // Parsing and storing global addresses is its own blog post...
   private Double longitude;
@@ -32,8 +33,6 @@ public class Doctor {
   private Set<Specialty> specialties = new HashSet<>();
 
 
-  // Persistent models get unwieldy quickly, so it's wise to make it explicit which parameters are required and which
-  // are optional...Factory methods help with that.
   public static Doctor create(String groupId, String name, Location location) {
     Doctor doc = new Doctor();
     doc.setGroupId(groupId);

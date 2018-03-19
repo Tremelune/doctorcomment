@@ -27,6 +27,7 @@ import com.quieteyes.doctorcomment.data.DoctorRepository;
 import com.quieteyes.doctorcomment.model.Comment;
 import com.quieteyes.doctorcomment.model.Doctor;
 
+/** End-to-end test that fires up the server and hits endpoints. */
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc

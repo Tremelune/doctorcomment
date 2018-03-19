@@ -32,6 +32,14 @@ public class CommentController {
   }
 
 
+  /**
+   * Creates a comment on a particular doctor. The request body should be JSON that matches the structure of
+   * SaveRequest. All params are required.
+   * - authorId: ID of user making the comment.
+   * - body: Actual comment.
+   * - rating: Rating of the doctor (1-5, inclusive).
+   * - doctorId: ID of the doctor being commented on.
+   */
   @RequestMapping(method = POST)
   public Iterable<Doctor> create(@RequestBody SaveRequest req) {
     Doctor doc = doctorFinder.findById(req.doctorId).get();
@@ -41,12 +49,17 @@ public class CommentController {
   }
 
 
+  /** Retrieves a comment by ID. */
   @RequestMapping(method = GET, value = "/{id}")
   public Comment get(@PathVariable("id") Long id) {
     return commentFinder.findById(id).get();
   }
 
 
+  /**
+   * Updates the body and/or rating of the comment. The request body should be JSON that matches the structure of
+   * UpdateRequest. Null values are ignored.
+   */
   @RequestMapping(method = PUT, value = "/{id}")
   public Comment update(@PathVariable("id") Long id, @RequestBody UpdateRequest req) {
     commentSaver.update(id, req.body, req.rating);
@@ -55,6 +68,8 @@ public class CommentController {
 
 
   /**
+   * Deactivates a comment.
+   *
    * I thought about using PATCH here, but there was no data to send for the update. For this case, I prefer using a
    * sub-resource.
    *

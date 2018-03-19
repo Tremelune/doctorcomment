@@ -6,7 +6,11 @@ import org.springframework.stereotype.Component;
 
 import com.quieteyes.doctorcomment.data.DataInitializer;
 
-/** This gets run on application startup, wipes the datastore, and then populates it. */
+/**
+ * This gets run on application startup, wipes the datastore, and then populates it.
+ *
+ * You wouldn't really do this in production, it just my life easier to prepopulate the datastore with doctors.
+ */
 @Component
 @SuppressWarnings("unused") // Used by Spring.
 public class AppInitializer implements ApplicationRunner {

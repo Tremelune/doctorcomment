@@ -7,8 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/** Persisted specialties. */
 @Entity
-@Table(name = "specialties") // Explicitly defining table names avoids coincidental changes that destroy the world.
+@Table(name = "specialties")
 public class Specialty {
   @Id
   @GeneratedValue(strategy = AUTO)
